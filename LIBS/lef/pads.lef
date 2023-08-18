@@ -1,0 +1,170 @@
+VERSION 5.6 ;
+
+MACRO PDI
+  CLASS PAD AREAIO ;
+  ORIGIN 0 0 ;
+  SIZE 15 BY 12 ;
+  SYMMETRY X Y ;
+  PIN C
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal1 ;
+        RECT 1 11 2 12 ;
+      LAYER Metal2 ;
+        RECT 1 11 2 12 ;
+      LAYER Metal3 ;
+        RECT 1 11 2 12 ;
+      LAYER Metal4 ;
+        RECT 1 11 2 12 ;
+      LAYER Metal5 ;
+        RECT 1 11 2 12 ;
+      LAYER Metal6 ;
+        RECT 1 11 2 12 ;
+    END
+  END C
+  PIN PAD
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal9 ;
+        RECT 4 11 6 12 ;
+    END
+  END PAD
+  PIN VDD
+    DIRECTION INOUT ;
+    USE POWER ;
+    PORT
+      LAYER Metal1 ;
+        RECT 7 11 10 12 ;
+      LAYER Metal2 ;
+        RECT 7 11 10 12 ;
+      LAYER Metal3 ;
+        RECT 7 11 10 12 ;
+      LAYER Metal4 ;
+        RECT 7 11 10 12 ;
+      LAYER Metal5 ;
+        RECT 7 11 10 12 ;
+      LAYER Metal6 ;
+        RECT 7 11 10 12 ;
+    END
+  END VDD
+  PIN VSS
+    DIRECTION INOUT ;
+    USE GROUND ;
+    PORT
+      LAYER Metal1 ;
+        RECT 11 11 14 12 ;
+      LAYER Metal2 ;
+        RECT 11 11 14 12 ;
+      LAYER Metal3 ;
+        RECT 11 11 14 12 ;
+      LAYER Metal4 ;
+        RECT 11 11 14 12 ;
+      LAYER Metal5 ;
+        RECT 11 11 14 12 ;
+      LAYER Metal6 ;
+        RECT 11 11 14 12 ;
+    END
+  END VSS
+END PDI
+
+MACRO PDO
+  CLASS PAD AREAIO ;
+  ORIGIN 0 0 ;
+  SIZE 15 BY 12 ;
+  SYMMETRY X Y ;
+  PIN I
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal1 ;
+        RECT 1 11 2 12 ;
+      LAYER Metal2 ;
+        RECT 1 11 2 12 ;
+      LAYER Metal3 ;
+        RECT 1 11 2 12 ;
+      LAYER Metal4 ;
+        RECT 1 11 2 12 ;
+      LAYER Metal5 ;
+        RECT 1 11 2 12 ;
+      LAYER Metal6 ;
+        RECT 1 11 2 12 ;
+    END
+  END I
+  PIN PAD
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal9 ;
+        RECT 4 11 6 12 ;
+    END
+  END PAD
+  PIN VDD
+    DIRECTION INOUT ;
+    USE POWER ;
+    PORT
+      LAYER Metal1 ;
+        RECT 7 11 10 12 ;
+      LAYER Metal2 ;
+        RECT 7 11 10 12 ;
+      LAYER Metal3 ;
+        RECT 7 11 10 12 ;
+      LAYER Metal4 ;
+        RECT 7 11 10 12 ;
+      LAYER Metal5 ;
+        RECT 7 11 10 12 ;
+      LAYER Metal6 ;
+        RECT 7 11 10 12 ;
+    END
+  END VDD
+  PIN VSS
+    DIRECTION INOUT ;
+    USE GROUND ;
+    PORT
+      LAYER Metal1 ;
+        RECT 11 11 14 12 ;
+      LAYER Metal2 ;
+        RECT 11 11 14 12 ;
+      LAYER Metal3 ;
+        RECT 11 11 14 12 ;
+      LAYER Metal4 ;
+        RECT 11 11 14 12 ;
+      LAYER Metal5 ;
+        RECT 11 11 14 12 ;
+      LAYER Metal6 ;
+        RECT 11 11 14 12 ;
+    END
+  END VSS
+END PDO
+
+#
+# Polygon bumpcell
+#
+VERSION 5.7 ;
+
+MACRO BUMPCELL
+  CLASS COVER BUMP ;
+  ORIGIN 0 0 ;
+  SIZE 15.0 BY 15.0 ;
+  SYMMETRY X Y ;
+  PIN PAD
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+      PORT
+        CLASS CORE ;
+        LAYER Metal9 ;
+        POLYGON
+                0  5
+                0  10
+                5  15
+                10 15
+                15 10
+                15 5
+                10 0
+                5  0 ;
+      END
+  END PAD
+END BUMPCELL
+
+END LIBRARY

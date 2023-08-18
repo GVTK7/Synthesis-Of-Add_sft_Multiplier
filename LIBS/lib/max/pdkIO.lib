@@ -1,0 +1,356 @@
+/*
+ *      Cadence Design Systems, Inc
+ *      Glenn Gullikson
+ *      Synchronous Dual-Port Ram
+ *
+ *      Creation Date:  04/27/2010
+ *
+ */
+
+library(GPDK_IO.lib) {
+    delay_model             : table_lookup;
+    revision                : 1.1;    
+    time_unit               : "1ns";
+    voltage_unit            : "1V";
+    current_unit            : "1mA";
+    leakage_power_unit      : "1mW";
+    nom_process             : 1;
+    nom_temperature         : 125.000;
+    nom_voltage             : 1.080;
+    capacitive_load_unit    (1,pf);
+
+    pulling_resistance_unit            : "1kohm";
+
+    /* additional header data */
+    default_cell_leakage_power  : 0;
+    default_fanout_load         : 1;
+    default_inout_pin_cap       : 0.005;
+    default_input_pin_cap       : 0.005;
+    default_output_pin_cap      : 0.0;
+    default_max_transition      : 1.000;
+
+        /* default attributes */
+        default_leakage_power_density : 0.0;
+        slew_derate_from_library      : 1;
+        slew_lower_threshold_pct_fall : 10.0;
+        slew_upper_threshold_pct_fall : 90.0;
+        slew_lower_threshold_pct_rise : 10.0;
+        slew_upper_threshold_pct_rise : 90.0;
+        input_threshold_pct_fall      : 50.0;
+        input_threshold_pct_rise      : 50.0;
+        output_threshold_pct_fall     : 50.0;
+        output_threshold_pct_rise     : 50.0;
+
+     /* k-factors */
+     k_process_cell_fall             : 1;
+     k_process_cell_leakage_power    : 0;
+     k_process_cell_rise             : 1;
+     k_process_fall_transition       : 1;
+     k_process_hold_fall             : 1;
+     k_process_hold_rise             : 1;
+     k_process_internal_power        : 0;
+     k_process_min_pulse_width_high  : 1;
+     k_process_min_pulse_width_low   : 1;
+     k_process_pin_cap               : 0;
+     k_process_recovery_fall         : 1;
+     k_process_recovery_rise         : 1;
+     k_process_rise_transition       : 1;
+     k_process_setup_fall            : 1;
+     k_process_setup_rise            : 1;
+     k_process_wire_cap              : 0;
+     k_process_wire_res              : 0;
+     k_temp_cell_fall                : 0.0;
+     k_temp_cell_rise                : 0.0;
+     k_temp_hold_fall                : 0.0;
+     k_temp_hold_rise                : 0.0;
+     k_temp_min_pulse_width_high     : 0.0;
+     k_temp_min_pulse_width_low      : 0.0;
+     k_temp_min_period               : 0.0;
+     k_temp_rise_propagation         : 0.0;
+     k_temp_fall_propagation         : 0.0;
+     k_temp_rise_transition          : 0.0;
+     k_temp_fall_transition          : 0.0;
+     k_temp_recovery_fall            : 0.0;
+     k_temp_recovery_rise            : 0.0;
+     k_temp_setup_fall               : 0.0;
+     k_temp_setup_rise               : 0.0;
+     k_volt_cell_fall                : 0.0;
+     k_volt_cell_rise                : 0.0;
+     k_volt_hold_fall                : 0.0;
+     k_volt_hold_rise                : 0.0;
+     k_volt_min_pulse_width_high     : 0.0;
+     k_volt_min_pulse_width_low      : 0.0;
+     k_volt_min_period               : 0.0;
+     k_volt_rise_propagation         : 0.0;
+     k_volt_fall_propagation         : 0.0;
+     k_volt_rise_transition          : 0.0;
+     k_volt_fall_transition          : 0.0;
+     k_volt_recovery_fall            : 0.0;
+     k_volt_recovery_rise            : 0.0;
+     k_volt_setup_fall               : 0.0;
+     k_volt_setup_rise               : 0.0;
+
+
+    operating_conditions(slow) {
+        process         : 1;
+        temperature     : 125.000;
+        voltage         : 1.080;
+        tree_type       : balanced_tree;
+    }
+        default_operating_conditions : slow;
+
+    output_voltage(GENERAL) {
+        vol             : 0.4;
+        voh             : VDD - 0.4;
+        vomin           : -0.5;
+        vomax           : VDD + 0.5;
+    }
+    input_voltage(CMOS) {
+        vil             : 0.3 * VDD;
+        vih             : 0.7 * VDD;
+        vimin           : -0.5;
+        vimax           : VDD + 0.5;
+    }
+    input_voltage(TTL) {
+        vil             : 0.8;
+        vih             : 2;
+        vimin           : -0.5;
+        vimax           : VDD + 0.5;
+    }
+        lu_table_template(delay_template) {
+           variable_1 : input_net_transition;
+           variable_2 : total_output_net_capacitance;
+               index_1 ("0, 1000");
+               index_2 ("0, 1000"); 
+        }
+    lu_table_template(constraint_template) {
+           variable_1 : related_pin_transition;
+           variable_2 : constrained_pin_transition;
+               index_1 ("0, 1000");
+               index_2 ("0, 1000"); 
+        }
+    lu_table_template(load_template) {
+           variable_1 : total_output_net_capacitance;
+               index_1 ("0, 1000");
+               index_2 ("0, 1000"); 
+        }
+        power_lut_template(power_template) {
+           variable_1 : input_transition_time;
+               index_1 ("0, 1000");
+        }
+    library_features(report_delay_calculation);
+   cell (PADO) {
+     area : 0.0;
+     cell_leakage_power : 0.504194;
+     rail_connection( VDD, RAIL_VDD );
+     rail_connection( VSS, RAIL_VSS );
+     pin(IN)  {
+       direction : input;
+       input_signal_level : RAIL_VDD;
+       capacitance      : 0.002;
+       rise_capacitance : 0.002;
+       fall_capacitance : 0.002;
+     }
+     pin(PAD)  {
+       direction : output;
+       is_pad : true;
+       output_signal_level : RAIL_VDD;
+       capacitance : 0;
+       rise_capacitance : 0;
+       fall_capacitance : 0;
+       max_capacitance : 1.0;
+       function : "IN";
+       timing() {
+         related_pin : "IN";
+         timing_sense : positive_unate;
+               cell_rise(delay_template) {
+                  index_1 ("0.010, 1.500");
+                  index_2 ("0.000, 1.000");
+                  values ( \
+                    "0.025, 0.500," \
+                    "0.050, 0.600" \
+                  )
+               }
+               rise_transition(load_template) {
+                   index_1 ("0.000, 1.000");
+                   values ( \
+                     "0.010, 1.000" \
+                   )
+               }
+               cell_fall(delay_template) {
+                  index_1 ("0.010, 1.500");
+                  index_2 ("0.000, 1.000");
+                  values ( \
+                    "0.025, 0.500," \
+                    "0.050, 0.600" \
+                  )
+               }
+               fall_transition(load_template) {
+                   index_1 ("0.000, 1.000");
+                   values ( \
+                     "0.010, 1.000" \
+                   )
+               }    
+           }
+       }
+   }
+   cell (PADI) {
+     area : 0.0;
+     cell_leakage_power : 0.504194;
+     rail_connection( VDD, RAIL_VDD );
+     rail_connection( VSS, RAIL_VSS );
+     pin(PAD)  {
+       direction : input;
+       is_pad : true;
+       input_signal_level : RAIL_VDD;
+       capacitance      : 0.002;
+       rise_capacitance : 0.002;
+       fall_capacitance : 0.002;
+     }
+     pin(OUT)  {
+       direction : output;
+       output_signal_level : RAIL_VDD;
+       capacitance : 0;
+       rise_capacitance : 0;
+       fall_capacitance : 0;
+       max_capacitance : 1.0;
+       function : "PAD";
+       timing() {
+         related_pin : "PAD";
+         timing_sense : positive_unate;
+               cell_rise(delay_template) {
+                  index_1 ("0.010, 1.500");
+                  index_2 ("0.000, 1.000");
+                  values ( \
+                    "0.025, 0.500," \
+                    "0.050, 0.600" \
+                  )
+               }
+               rise_transition(load_template) {
+                   index_1 ("0.000, 1.000");
+                   values ( \
+                     "0.010, 1.000" \
+                   )
+               }
+               cell_fall(delay_template) {
+                  index_1 ("0.010, 1.500");
+                  index_2 ("0.000, 1.000");
+                  values ( \
+                    "0.025, 0.500," \
+                    "0.050, 0.600" \
+                  )
+               }
+               fall_transition(load_template) {
+                   index_1 ("0.000, 1.000");
+                   values ( \
+                     "0.010, 1.000" \
+                   )
+               }    
+           }
+       }
+   }
+   cell (PADIO) {
+     area : 0.0;
+     cell_leakage_power : 0.504194;
+     rail_connection( VDD, RAIL_VDD );
+     rail_connection( VSS, RAIL_VSS );
+   
+     pin(PAD)  {
+       direction : inout;
+       is_pad : true;
+       function : "IN";
+       three_state : "OEN";
+       input_signal_level : RAIL_VDD;
+       capacitance      : 0.002;
+       rise_capacitance : 0.002;
+       fall_capacitance : 0.002;
+       timing() {
+         related_pin : "IN";
+         timing_sense : positive_unate;
+               cell_rise(delay_template) {
+                  index_1 ("0.010, 1.500");
+                  index_2 ("0.000, 1.000");
+                  values ( \
+                    "0.025, 0.500," \
+                    "0.050, 0.600" \
+                  )
+               }
+               rise_transition(load_template) {
+                   index_1 ("0.000, 1.000");
+                   values ( \
+                     "0.010, 1.000" \
+                   )
+               }
+               cell_fall(delay_template) {
+                  index_1 ("0.010, 1.500");
+                  index_2 ("0.000, 1.000");
+                  values ( \
+                    "0.025, 0.500," \
+                    "0.050, 0.600" \
+                  )
+               }
+               fall_transition(load_template) {
+                   index_1 ("0.000, 1.000");
+                   values ( \
+                     "0.010, 1.000" \
+                   )
+               }    
+           }
+     }
+     pin(OEN)  {
+       direction : input;
+       input_signal_level : RAIL_VDD;
+       capacitance      : 0.002;
+       rise_capacitance : 0.002;
+       fall_capacitance : 0.002;
+     }
+     pin(IN)  {
+       direction : input;
+       input_signal_level : RAIL_VDD;
+       capacitance      : 0.002;
+       rise_capacitance : 0.002;
+       fall_capacitance : 0.002;
+     }
+     pin(OUT)  {
+       direction : output;
+       output_signal_level : RAIL_VDD;
+       capacitance : 0;
+       rise_capacitance : 0;
+       fall_capacitance : 0;
+       max_capacitance : 1.0;
+       function : "PAD";
+       timing() {
+         related_pin : "PAD";
+         timing_sense : positive_unate;
+               cell_rise(delay_template) {
+                  index_1 ("0.010, 1.500");
+                  index_2 ("0.000, 1.000");
+                  values ( \
+                    "0.025, 0.500," \
+                    "0.050, 0.600" \
+                  )
+               }
+               rise_transition(load_template) {
+                   index_1 ("0.000, 1.000");
+                   values ( \
+                     "0.010, 1.000" \
+                   )
+               }
+               cell_fall(delay_template) {
+                  index_1 ("0.010, 1.500");
+                  index_2 ("0.000, 1.000");
+                  values ( \
+                    "0.025, 0.500," \
+                    "0.050, 0.600" \
+                  )
+               }
+               fall_transition(load_template) {
+                   index_1 ("0.000, 1.000");
+                   values ( \
+                     "0.010, 1.000" \
+                   )
+               }    
+           }
+       }
+   }
+}
